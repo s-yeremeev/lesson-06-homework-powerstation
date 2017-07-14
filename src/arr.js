@@ -31,4 +31,3 @@ arrBlock =[
                 reservoirfluid: 60
             }
 ]
-let k = 2

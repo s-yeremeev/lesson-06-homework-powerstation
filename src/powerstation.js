@@ -2,41 +2,29 @@
  * Объект "Атомная электростанция"
  */
 function NuclearPowerStation() {
-    const self = this
-
-    userIsLogin = false
+     self = this
+     this.corectlogin = false
     
     //функция инициализации пользователя системы
    this.login = function (user) {
-        for (let i in databaseUsers) {
-            if (databaseUsers[i].firstname == user.firstname) {
-                if (databaseUsers[i].lastname == user.lastname) {                    
-                    if (databaseUsers[i].password == user.password) {
-                         user.isLogin = true                       
-                    } 
-                } 
-            } 
-        }
-        if (user.isLogin) {
-            console.log(CORRECT_LOGIN)
-            self.userIsLogin = user.isLogin
-            return true
-        } else {
-            console.log(INCORRECT_LOGIN)
-        }
-    }
-
+        corectlogin = databaseUsers.find(function (el) { 
+	                return el.firstname == user.firstname 
+		            && el.lastname == user.lastname 
+                    && el.password == user.password
+        })
+        if(corectlogin !== undefined) return self.corectlogin = true           
+   }
+      
 
     //Добавление нового обьекта блока 
     this.addBlock = function (block) {
-        if(self.userIsLogin) {
-            arrBlock[k] = {
+        if(self.corectlogin) {
+            arrBlock.push({
                             name: block.name,
                             temperature: block.temperature,
                             reservoirfluid: block.reservoirfluid 
-            }
-            console.log(ADD_BLOCK)
-            return k++
+            })
+            console.log(ADD_BLOCK + " -\"" + block.name + "\"")
         } else {
             console.log(INCORRECT_LOGIN)
         }
@@ -45,7 +33,7 @@ function NuclearPowerStation() {
 
     //Просмотр температуры блоков
      this.checkTemperature = function () {
-        if(self.userIsLogin) {
+        if(self.corectlogin) {
             console.log(CSS, COLOR_GREEN, DATA_TEMP)
             console.table(arrBlock, ["name", "temperature"])
         } else {
@@ -56,7 +44,7 @@ function NuclearPowerStation() {
 
      //Добавление охладительной жидкости
       this.addCoolant = function (block) {
-        if(self.userIsLogin) {
+        if(self.corectlogin) {
             for(let i in arrBlock) {
                 if(arrBlock[i].name == block.name) {
                     arrBlock[i].reservoirfluid = arrBlock[i].reservoirfluid + block.reservoirfluid
@@ -72,7 +60,7 @@ function NuclearPowerStation() {
 
     // Использование метода для объекта юзер (проверка на отпуск)
     this.holidayUser = function (holid) {
-        if(self.userIsLogin) {
+        if(self.corectlogin) {
             holid.holiday()
             if (holid.isHoliday) {
                 console.log(CSS, COLOR_RED, WARNING)
@@ -86,7 +74,6 @@ function NuclearPowerStation() {
         }
     }
 }
-
 
 
 
@@ -107,25 +94,24 @@ function User(firstname, lastname, password, isHoliday) {
     this.isHoliday = isHoliday
 
     
- // Провверка, был ли пользователь в отпуске, если был то температура растет, а жидкость уменьшается
+    // Провверка, был ли пользователь в отпуске, если был то температура растет, а жидкость уменьшается
     this.holiday = function () {     
         if(self.isHoliday) {
             let min = 0
             let max = 100        
-            for(let l in arrBlock) {  
+            for(let i in arrBlock) {  
                 //повышение температуры              
-                min = arrBlock[l].temperature
-                arrBlock[l].temperature = Math.floor(Math.random() * (max - min + 1)) + min
+                min = arrBlock[i].temperature
+                arrBlock[i].temperature = Math.floor(Math.random() * (max - min + 1)) + min
 
                 //уменьшение жидкости
                 min = 0
-                max = arrBlock[l].reservoirfluid
-                arrBlock[l].reservoirfluid = Math.floor(Math.random() * (max - min + 1)) + min
+                max = arrBlock[i].reservoirfluid
+                arrBlock[i].reservoirfluid = Math.floor(Math.random() * (max - min + 1)) + min
             }
         }
     }
 }
-
 
 
 /**
@@ -135,15 +121,10 @@ function User(firstname, lastname, password, isHoliday) {
  * @param {Number} reservoirfluid 
  */
 function PowerUnit(name, temperature, reservoirfluid) {
-    const self = this
-
     this.name = name
     this.temperature = temperature
     this.reservoirfluid = reservoirfluid
-
 }
-
-
 
 
 /**
@@ -160,12 +141,6 @@ nps.addBlock(new PowerUnit("Block 4", 50, 95))
 
 //проверка температуры в блоках
 nps.checkTemperature()
-
-////выводим данные о блоках
-if(nps.userIsLogin) {
-    console.log(CSS, COLOR_GREEN, DATA_BLOCK)
-    console.table(arrBlock)
-}
 
 // передаем, что пользователь был в отпуске, температура, в связи с этим растет, жидкость уменьшается
 nps.holidayUser (new User("Misha", "Kolins", "11111111", true))
