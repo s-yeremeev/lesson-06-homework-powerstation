@@ -1,0 +1,11 @@
+const CORRECT_LOGIN = "Вы зашли в систему. Можем начать работу"
+const INCORRECT_LOGIN = "Данные о пользователе неверны. Вы не можете работать с программой!"
+const ADD_BLOCK = "Новый блок добавлен"
+const CSS = '%c%s'
+const COLOR_RED = 'color: red; font: 1.2rem/1 Tahoma;'
+const COLOR_GREEN = 'color: green; font: 1.2rem/1 Tahoma;'
+const DATA_TEMP = "Данные о температуре в блоках"
+const ADD_COOLANT = " -охлаждающая жидкость добавленна, температура блока падает!"
+const WARNING = "Температура в блоках растет, необходимо добавить охлаждающую жидкость в резервуары!"
+const NO_PROBLEM_TEMP = "У пользователя не было отпуска. С температурой в блоках и жидкостью все в порядке"
+const DATA_BLOCK = "Данные о энергоблоках"
